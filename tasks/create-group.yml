@@ -1,0 +1,7 @@
+---
+
+- name: "Create our {{ system_group.name }} system group"
+  group:
+    name: "{{ system_group.group }}"
+    gid:  "{{ system_group.gid }}"
+    state: present

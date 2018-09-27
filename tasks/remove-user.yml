@@ -1,0 +1,6 @@
+---
+
+- name: "Remove our {{ service_user.name }} user"
+  user:
+    name: "{{ service_user.name }}"
+    state: absent

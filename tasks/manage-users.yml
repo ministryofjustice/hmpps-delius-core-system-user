@@ -1,0 +1,11 @@
+---
+
+- block:
+    - name: Create our system user
+      include: create-user.yml
+  when: system_user.state|default('present') == 'present'
+
+- block:
+    - name: Remove our system user
+      include: remove-user.yml
+  when: system_user.state|default('present') == 'absent'

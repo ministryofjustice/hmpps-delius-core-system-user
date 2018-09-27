@@ -1,0 +1,6 @@
+---
+
+- name: "Remove our {{ system_group.name }} group"
+  group:
+    name: "{{ system_group.name }}"
+    state: absent

@@ -1,0 +1,13 @@
+---
+
+- name: Manage our groups
+  include: manage-groups.yml
+  with_items: "{{ system_groups }}"
+  loop_control:
+    loop_var: system_group
+
+- name: Manage our users
+  include: manage-users.yml
+  with_items: "{{ system_users }}"
+  loop_control:
+    loop_var: system_user

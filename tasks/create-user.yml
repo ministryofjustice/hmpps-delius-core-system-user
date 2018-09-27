@@ -1,0 +1,32 @@
+---
+
+- name: User creation
+  user:
+    name: "{{ system_user.name }}"
+    group: "{{ system_user.group }}"
+    groups: "{{ system_user.groups|default(system_user.group) }}"
+    shell: "{{ system_user_shell|default('/bin/bash') }}"
+    comment: "{{ system_user.name }}"
+    uid: "{{ system_user.uid }}"
+    home: "{{ system_user.home | default('/home/' + system_user.name) }}"
+    createhome: yes
+    append: yes
+
+- name: Set our profile file location on Debian derivatives
+  set_fact:
+    profile_file: ".profile"
+  when: ansible_os_family == "Debian"
+
+- name: Set our profile file location on RedHat derivatives
+  set_fact:
+    profile_file: ".bash_profile"
+  when: ansible_os_family == "RedHat"
+
+- name: Setup user profiles
+  blockinfile:
+    block: "{{ system_user.profile}}"
+    dest: "{{ system_user.home | default('/home/' + system_user.name) }}/{{ profile_file }}"
+    owner: "{{ system_user.name }}"
+    group: "{{ system_user.group }}"
+    mode: 0644
+    create: true

@@ -1,0 +1,11 @@
+---
+
+- block:
+    - name: Create our system group
+      include: create-group.yml
+  when: system_group.state|default('present') == 'present'
+
+- block:
+    - name: Remove our system group
+      include: remove-group.yml
+  when: system_group.state|default('present') == 'absent'
