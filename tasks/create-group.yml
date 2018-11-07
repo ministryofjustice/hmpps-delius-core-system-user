@@ -1,7 +1,16 @@
 ---
 
-- name: "Create our {{ system_group.name }} system group"
-  group:
-    name: "{{ system_group.group }}"
-    gid:  "{{ system_group.gid }}"
-    state: present
+- block:
+    - name: "Create our {{ system_group.name }} system group"
+      group:
+        name: "{{ system_group.group }}"
+        gid:  "{{ system_group.gid }}"
+        state: present
+  when: system_group.gid|default(false)
+
+- block:
+    - name: "Create our {{ system_group.name }} system group"
+      group:
+        name: "{{ system_group.group }}"
+        state: present
+  when: not system_group.gid|default(false)

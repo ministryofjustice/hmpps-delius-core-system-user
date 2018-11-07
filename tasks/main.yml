@@ -2,12 +2,12 @@
 
 - name: Manage our groups
   include: manage-groups.yml
-  with_items: "{{ system_groups }}"
+  with_items: "{{ system_groups|default([]) }}"
   loop_control:
     loop_var: system_group
 
 - name: Manage our users
   include: manage-users.yml
-  with_items: "{{ system_users }}"
+  with_items: "{{ system_users|default([]) }}"
   loop_control:
     loop_var: system_user
