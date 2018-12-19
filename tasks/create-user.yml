@@ -27,6 +27,19 @@
         append: yes
   when: not system_user.uid|default(false)
 
+- block:
+    - name: Create a drop in sudoer file
+      template:
+        src: "{{ role_path }}/templates/sudoer.conf.j2"
+        dest: "/etc/sudoers.d/{{ system_user.name }}.conf"
+        remote_src: true
+        owner: root
+        group: root
+        mode: 644
+      become: true
+
+  when: system_user.is_pwless_sudoer|default(false)
+
 - name: Set our profile file location on Debian derivatives
   set_fact:
     profile_file: ".profile"
